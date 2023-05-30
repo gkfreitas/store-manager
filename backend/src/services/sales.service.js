@@ -1,4 +1,4 @@
-const { salesModel } = require('../models');
+const { salesModel, productsModel } = require('../models');
 
 const findAll = async () => {
   const sales = await salesModel.findAll();
@@ -12,7 +12,31 @@ const findById = async (salesId) => {
   return { type: null, message: sales };
 };
 
+const createSale = async (sale) => {
+  const productID = await productsModel.findAll();
+  const idsProducts = productID.map((e) => e.id);
+  const idsProductsSale = sale.map((e) => e.productId);
+  const verifyId = idsProductsSale.every((e) => idsProducts.includes(e));
+  if (!verifyId) return { type: 'PRODUCT_NOT_FOUND', message: { message: 'Product not found' } };
+  const newSaleId = await salesModel.insert(sale);
+  const newSale = {
+    id: newSaleId,
+    itemsSold: sale,
+  };
+  return { type: null, message: newSale };
+};
+createSale([
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+]);
 module.exports = {
   findAll,
   findById,
+  createSale,
 };

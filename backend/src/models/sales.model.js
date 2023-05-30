@@ -33,7 +33,27 @@ const findById = async (saleId) => {
   return camelize(product);
 };
 
+const insert = async (sales) => {
+  const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.sales (date) VALUES (?)',
+    [date],
+  );
+
+  sales.forEach(async (e) => {
+    const insertWithId = await connection.execute(
+      `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+      VALUES (?, ?, ?)`,
+      [insertId, e.productId, e.quantity],
+    );
+    return insertWithId;
+  });
+
+  return insertId;
+};
+
 module.exports = {
   findAll,
   findById,
+  insert,
 };

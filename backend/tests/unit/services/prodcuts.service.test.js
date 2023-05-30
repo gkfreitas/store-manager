@@ -46,6 +46,15 @@ describe('Verificando service dos produtos', function () {
     expect(result.type).to.equal(null);
     expect(result.message).to.deep.equal(productsMock[0]);
   });
+
+  it('retorna o ID da pessoa passageira cadastrada', async function () {
+    sinon.stub(productsModel, 'insert').resolves(1);
+    sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
+
+    const result = await productsService.createProduct({ name: 'ProductX' });
+    expect(result.type).to.equal(null);
+    expect(result.message).to.deep.equal(productsMock[0]);
+  });
   
    afterEach(function () {
      sinon.restore();

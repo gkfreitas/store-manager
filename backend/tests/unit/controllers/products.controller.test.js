@@ -9,7 +9,7 @@ chai.use(sinonChai);
 
 const { productsService } = require('../../../src/services');
 const { productsControler } = require('../../../src/controllers');
-const { productsMock } = require('./mocks/products.controller.mock');
+const { productsMock, newProduct } = require('./mocks/products.controller.mock');
 
 describe('Teste de unidade do productsControler', function () {
   describe('Listando as pessoas passageiras', function () {
@@ -81,6 +81,22 @@ describe('Teste de unidade do productsControler', function () {
       await productsControler.getProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(500); 
+    });
+
+    it('ao enviar dados válidos deve salvar com sucesso!', async function () {
+      // Arrange
+      const res = {};
+      const req = {
+        body: productsMock,
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'createProduct')
+        .resolves({ type: null, message: newProduct });
+      await productsControler.createProduct(req, res);
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProduct);
     });
   });
   
