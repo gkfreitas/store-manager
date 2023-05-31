@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesService } = require('../../../src/services');
 const { salesModel } = require('../../../src/models');
-const { salesMock, newSale } = require('./mocks/sales.models.mock');
+const { salesMock } = require('./mocks/sales.models.mock');
 
 describe('Verificando service dos sales', function () {
   describe('listagem de sales', function () {
