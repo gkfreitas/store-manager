@@ -6,32 +6,53 @@ const {
 } = require('../../../src/models');
 const { productsMock } = require('./mocks/products.service.mock');
 
-describe('Verificando service pessoa passageira', function () {
-  describe('listagem de pessoas passageiras', function () {
-    it('retorna a lista completa de pessoas passageiras', async function () {
-      // arrange
+describe('Verificando service de produtos', function () {
+  describe('listagem de produtos', function () {
+    it('retorna a lista completa de produtos', async function () {
       sinon.stub(productsModel, 'findAll').resolves(productsMock);
       
-      // act
       const result = await productsService.findAll();
 
-      // assert
       expect(result.type).to.be.equal(null);
       expect(result.message).to.deep.equal(productsMock);
     });
   });
 
-  describe('busca de uma pessoa passageira', function () {
-    it('retorna um erro caso a pessoa passageira não existe', async function () {
-      // arrange
+  describe('busca de um produto', function () {
+    it('retorna um erro caso o produto não exista', async function () {
       sinon.stub(productsModel, 'findById').resolves(undefined);
      
-      // act
       const result = await productsService.findById(1);
       
-      // assert
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.deep.equal({ message: 'Product not found' });
+    });
+
+    it('retorna o produto caso exista', async function () {
+      // arrange
+      sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
+      
+      // act
+      const result = await productsService.findById(1);
+
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(productsMock[0]);
+    });
+  });
+
+  describe('cadastro de uma pessoa passageira com valores válidos', function () {
+    it('retorna o ID da pessoa passageira cadastrada', async function () {
+      // arrange
+      sinon.stub(productsModel, 'insert').resolves(1);
+      sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
+      
+      // act
+      const result = await productsService.createProduct({ name: 'ProdutoX' });
+
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(productsMock[0]);
     });
   });
   
