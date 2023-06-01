@@ -29,13 +29,10 @@ describe('Verificando service de produtos', function () {
     });
 
     it('retorna o produto caso exista', async function () {
-      // arrange
       sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
       
-      // act
       const result = await productsService.findById(1);
 
-      // assert
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(productsMock[0]);
     });
@@ -44,13 +41,25 @@ describe('Verificando service de produtos', function () {
   describe('cadastro de uma pessoa passageira com valores válidos', function () {
     it('retorna o ID da pessoa passageira cadastrada', async function () {
       // arrange
-      sinon.stub(productsModel, 'insert').resolves(1);
+      sinon.stub(productsModel, 'insert').resolves(productsMock[0]);
       sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
       
       // act
       const result = await productsService.createProduct({ name: 'ProdutoX' });
 
       // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(productsMock[0]);
+    });
+  });
+
+  describe('atualizando dados de um produto', function () {
+    it('retorna produto atualizado', async function () {
+      sinon.stub(productsModel, 'update').resolves(productsMock[0]);
+      sinon.stub(productsModel, 'findById').resolves(productsMock[0]);
+      
+      const result = await productsService.updateProduct(1, { name: 'ProdutoX' });
+
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(productsMock[0]);
     });

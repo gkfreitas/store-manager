@@ -23,6 +23,12 @@ describe('Testes de unidade do model de produtos', function () {
     expect(result).to.equal(42);
   });
 
+  it('Atualizando um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
+    const result = await productsModel.update(newProduct);
+    expect(result).to.equal(42);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

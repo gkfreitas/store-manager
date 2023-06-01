@@ -3,16 +3,15 @@ const connection = require('./connection');
 const findAll = async () => {
   const [result] = await connection.execute(
     `SELECT 
-    sp.sale_id,
+    sp.sale_id as saleId,
     s.date,
-      sp.product_id,
+      sp.product_id as productId,
       sp.quantity
   FROM
     StoreManager.sales as s
       JOIN
       StoreManager.sales_products as sp ON s.id = sp.sale_id`,
   );
-  
   return result;
 };
 
@@ -21,7 +20,7 @@ const findById = async (saleId) => {
     `SELECT
     DISTINCT
     s.date,
-      sp.product_id,
+      sp.product_id as productId,
       sp.quantity
   FROM
     StoreManager.sales as s
