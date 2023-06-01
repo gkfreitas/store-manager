@@ -1,4 +1,3 @@
-const camelize = require('camelize');
 const connection = require('./connection');
 
 const findAll = async () => {
@@ -14,7 +13,7 @@ const findAll = async () => {
       StoreManager.sales_products as sp ON s.id = sp.sale_id`,
   );
   
-  return camelize(result); 
+  return result;
 };
 
 const findById = async (saleId) => {
@@ -30,7 +29,7 @@ const findById = async (saleId) => {
       StoreManager.sales_products as sp ON sp.sale_id = ?`,
     [saleId],
   );
-  return camelize(product);
+  return product;
 };
 
 const insert = async (sales) => {
