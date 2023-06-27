@@ -14,6 +14,11 @@ router.get(
   salesControler.getSale,
 );
 
+router.delete(
+  '/:id',
+  salesControler.deleteSale,
+);
+
 router.post(
   '/',
   validateNewSale,

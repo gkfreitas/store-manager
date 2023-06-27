@@ -50,8 +50,21 @@ const insert = async (sales) => {
   return insertId;
 };
 
+const deleteS = async (saleId) => {
+  const [{ insertId }] = await connection.execute(
+    `
+    DELETE FROM StoreManager.sales
+    WHERE id = ?
+    `,
+    [saleId],
+  );
+  
+  return insertId; 
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  deleteS,
 };

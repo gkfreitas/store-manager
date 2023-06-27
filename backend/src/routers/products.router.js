@@ -14,6 +14,11 @@ router.get(
   productsControler.getProduct,
 );
 
+router.delete(
+  '/:id',
+  productsControler.deleteProduct,
+);
+
 router.post(
   '/',
   validateNewProduct,

@@ -25,18 +25,19 @@ const createSale = async (sale) => {
   };
   return { type: null, message: newSale };
 };
-createSale([
-  {
-    productId: 1,
-    quantity: 1,
-  },
-  {
-    productId: 2,
-    quantity: 5,
-  },
-]);
+
+const deleteSale = async (id) => {
+  const saleID = await salesModel.findAll();
+  const idsSales = saleID.map((e) => e.saleId);
+  const verifyId = idsSales.includes(Number(id));
+  if (!verifyId) return { type: 'SALE_NOT_FOUND', message: { message: 'Sale not found' } };
+  await salesModel.deleteS(id);
+  return { type: null, message: '' };
+};
+
 module.exports = {
   findAll,
   findById,
   createSale,
+  deleteSale,
 };
